@@ -1,25 +1,95 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {LinearGradient} from 'expo';
-import {Ionicons} from "@expo/vector-icons";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
+import PropTypes from 'prop-types';
 
-export default class Weather extends Component {
-  render() {
-    return <LinearGradient
-      colors={["#00C6FB", "#005BEA", "black"]}
+const weatherCases = {
+  Rain: {
+    color: ["#00C6FB", "#005BEA"],
+    title: 'Raining like MF',
+    subTitle: 'For more info look outside',
+    icon: 'weather-rainy'
+  },
+  Clear: {
+    color: ["#FEF253", "#FF7300"],
+    title: 'Sunny as fuck',
+    subTitle: 'Go get your ass burnt',
+    icon: 'weather-sunny'
+  },
+  Thunderstorm: {
+    color: ["#00ECBC", "#007ADF"],
+    title: 'Thunderstorm in the house',
+    subTitle: 'Actually outside of house',
+    icon: 'weather-lightning'
+  },
+  Clouds: {
+    color: ["#D7D2CC", "#304352"],
+    title: 'Clouds',
+    subTitle: 'I know, fucking boring',
+    icon: 'weather-cloudy'
+  },
+  Mist: {
+    color: ["#D7D2CC", "#304352"],
+    title: 'Mist',
+    subTitle: "It's like you have no glasses.",
+    icon: 'weather-fog'
+  },
+  Snow: {
+    color: ["#7DE2FC", "#B9B6E5"],
+    title: 'Cold as balls',
+    subTitle: 'Do you want to build snowman? Fuck no.',
+    icon: 'weather-snowy'
+  },
+  Drizzle: {
+    color: ["#89F7FE", "#66A6FF"],
+    title: 'Drizzle',
+    subTitle: 'Is like rain, but gay🏳️🌈',
+    icon: 'weather-hail'
+  },
+  Haze: {
+    color: ["#89F7FE", "#66A6FF"],
+    title: 'Haze',
+    subTitle: "Don't know what that is 😅",
+    icon: 'weather-hail'
+  }
+  // clear sky
+  // few clouds
+  // scattered clouds
+  // broken clouds
+  // shower rain
+  // rain
+  // thunderstorm
+  // snow
+  // mist
+}
+Weather.propTypes = {
+  weatherName: PropTypes.string.isRequired,
+  temp: PropTypes.number.isRequired
+}
+
+const curWeather = 'Haze';
+
+function Weather({weatherName, temp}) {
+  console.log(weatherName);
+  return (
+    <LinearGradient
+      colors={weatherCases[weatherName].color}
       style={styles.container}
     >
       <View style={styles.upper}>
-        <Ionicons color="gray" size={144} name={"ios-rainy"}/>
-        <Text style={styles.temp}>20˚</Text>
+        <MaterialCommunityIcons color="white" size={144} name={weatherCases[weatherName].icon}/>
+        <Text style={styles.temp}>{temp}˚</Text>
       </View>
       <View style={styles.lower}>
-        <Text style={styles.title}>Raining like MF</Text>
-        <Text style={styles.subTitle}>For more info look outside</Text>
+        <Text style={styles.title}>{weatherCases[weatherName].title}</Text>
+        <Text style={styles.subTitle}>{weatherCases[weatherName].subTitle}</Text>
       </View>
-    </LinearGradient>;
-  }
-};
+    </LinearGradient>
+  )
+}
+
+export default Weather;
 
 const styles = StyleSheet.create({
   container: {
